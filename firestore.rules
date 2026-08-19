@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // 1. Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    // 2. Work Sessions
+    match /workSessions/{sessionId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // 3. Daily Summaries
+    match /dailySummaries/{summaryId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // 4. Monthly Reports & Snapshots
+    match /monthlyReports/{monthKey} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // 5. Invoices & Expenses (المشتريات والفواتير)
+    match /expenses/{expenseId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // 6. Tasks & Assignments (المهام والتكليفات)
+    match /tasks/{taskId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // 7. System Settings
+    match /settings/{settingId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // 8. Audit Logs
+    match /auditLogs/{logId} {
+      allow read, create: if isAuthenticated();
+      allow update, delete: if false; // Immutable audit log
+    }
+  }
+}

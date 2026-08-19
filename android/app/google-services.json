@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "68301565182",
+    "project_id": "shabih-tracking",
+    "storage_bucket": "shabih-tracking.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68301565182:android:092703ac844ed616b6c9af",
+        "android_client_info": {
+          "package_name": "com.partnerworktracker.app.partner_work_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARh4h8e5JBKdWY7OTPcM_X8ULqw7yXN5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
