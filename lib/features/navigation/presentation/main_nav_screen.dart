@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
-import '../../expenses/presentation/expenses_screen.dart';
+import '../../history/presentation/history_screen.dart';
 import '../../reports/presentation/reports_screen.dart';
 import '../../settings/presentation/settings_screen.dart';
 import '../../tasks/presentation/tasks_screen.dart';
@@ -19,6 +19,7 @@ class MainNavScreen extends ConsumerWidget {
 
     final List<Widget> screens = const [
       HomeScreen(),
+      HistoryScreen(),
       TasksScreen(),
       ExpensesScreen(),
       ReportsScreen(),
@@ -30,6 +31,11 @@ class MainNavScreen extends ConsumerWidget {
         icon: Icon(Icons.timer_outlined),
         activeIcon: Icon(Icons.timer_rounded),
         label: AppStrings.navHome,
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.history_edu_outlined),
+        activeIcon: Icon(Icons.history_edu_rounded),
+        label: 'السجل والتدقيق',
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.task_alt_outlined),
