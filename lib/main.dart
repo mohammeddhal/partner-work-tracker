@@ -7,7 +7,6 @@ import 'core/constants/app_strings.dart';
 import 'core/services/notification_service.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/auth_gate.dart';
-import 'features/settings/presentation/settings_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -46,14 +45,11 @@ class PartnerWorkTrackerApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeModeProvider);
-
     return MaterialApp(
       title: AppStrings.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: themeMode,
+      themeMode: ThemeMode.light,
       // Arabic & RTL Localization configuration
       locale: const Locale('ar'),
       supportedLocales: const [

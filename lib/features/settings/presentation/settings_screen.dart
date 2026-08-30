@@ -7,8 +7,7 @@ import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../admin/presentation/admin_screen.dart';
 import '../../auth/data/auth_repository.dart';
-
-final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.system);
+import '../../history/presentation/history_screen.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -16,7 +15,6 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(currentUserProvider).value;
-    final currentThemeMode = ref.watch(themeModeProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -108,54 +106,61 @@ class SettingsScreen extends ConsumerWidget {
             const SizedBox(height: 20),
           ],
 
-          // Theme Settings
+          // Audit Logs Access (For both Mohammed & Masoud)
           const Text(
-            'المظهر والتخصيص:',
+            'سجل التدقيق والتعديلات:',
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           AppCard(
             padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                const Row(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(Icons.palette_outlined, size: 22, color: AppColors.primaryLight),
-                    SizedBox(width: 12),
-                    Text('وضع العرض (Theme)', style: TextStyle(fontWeight: FontWeight.bold)),
+                    const Row(
+                      children: [
+                        Icon(Icons.fact_check_outlined, size: 22, color: AppColors.primaryLight),
+                        SizedBox(width: 12),
+                        Text('سجل التعديلات والعمليات', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const HistoryScreen(initialTabIndex: 1),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
-                DropdownButton<ThemeMode>(
-                  value: currentThemeMode,
-                  underline: const SizedBox.shrink(),
-                  items: const [
-                    DropdownMenuItem(value: ThemeMode.system, child: Text('تلقائي النظام')),
-                    DropdownMenuItem(value: ThemeMode.light, child: Text('الوضع النهاري')),
-                    DropdownMenuItem(value: ThemeMode.dark, child: Text('الوضع الليلي')),
-                  ],
-                  onChanged: (mode) {
-                    if (mode != null) {
-                      ref.read(themeModeProvider.notifier).state = mode;
-                    }
-                  },
+                const SizedBox(height: 4),
+                const Text(
+                  'يعرض جميع التعديلات، الحذف، والإضافات اليدوية مع أسماء المنفذين والأسباب.',
+                  style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
                 ),
               ],
             ),
           ),
+          const SizedBox(height: 16),
+
           // Admin Dashboard Button (If Admin)
           if (user?.isAdmin ?? false) ...[
-            const SizedBox(height: 10),
             AppButton(
-              text: 'لوحة تحكم المدير وسجل التدقيق',
+              text: 'لوحة تحكم وتعيينات المدير',
               icon: Icons.admin_panel_settings_rounded,
-              backgroundColor: AppColors.primary,
+              backgroundColor: AppColors.primaryLight,
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const AdminScreen()),
                 );
               },
             ),
+            const SizedBox(height: 20),
           ],
           const SizedBox(height: 20),
 

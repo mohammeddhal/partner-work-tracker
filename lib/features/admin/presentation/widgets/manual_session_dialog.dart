@@ -57,14 +57,18 @@ class _ManualSessionDialogState extends ConsumerState<ManualSessionDialog> {
     final currentUser = ref.watch(currentUserProvider).value;
     final isEditing = widget.sessionToEdit != null;
 
-    if (_selectedUserId == null && allUsers.isNotEmpty) {
-      _selectedUserId = allUsers.first.id;
+    if (_selectedUserId == null) {
+      if (currentUser != null && allUsers.any((u) => u.id == currentUser.id)) {
+        _selectedUserId = currentUser.id;
+      } else if (allUsers.isNotEmpty) {
+        _selectedUserId = allUsers.first.id;
+      }
     }
 
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       title: Text(
-        isEditing ? AppStrings.editSession : AppStrings.addManualSession,
+        isEditing ? AppStrings.editSession : 'إضافة جلسة عمل (يدوي بأثر رجعي)',
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
       ),
       content: SingleChildScrollView(
@@ -308,7 +312,7 @@ class _ManualSessionDialogState extends ConsumerState<ManualSessionDialog> {
                         newStartTime: startDateTime,
                         newEndTime: endDateTime,
                         actorId: currentUser?.id ?? '',
-                        actorName: currentUser?.name ?? 'المدير',
+                        actorName: currentUser?.name ?? 'الشريك',
                         reason: _reasonController.text.trim(),
                         requiredMinutes: targetUser.requiredDailyMinutes,
                       );
@@ -319,7 +323,7 @@ class _ManualSessionDialogState extends ConsumerState<ManualSessionDialog> {
                         startTime: startDateTime,
                         endTime: endDateTime,
                         actorId: currentUser?.id ?? '',
-                        actorName: currentUser?.name ?? 'المدير',
+                        actorName: currentUser?.name ?? 'الشريك',
                         reason: _reasonController.text.trim(),
                         requiredMinutes: targetUser.requiredDailyMinutes,
                       );
